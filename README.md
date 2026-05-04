@@ -33,8 +33,7 @@ O protocolo e composto por 4 contratos inteligentes:
 6. Detentores de tokens votam nas decisoes da plataforma
 
 ## Tecnologias
-
-- Solidity ^0.8.20
+- Solidity ^0.8.x, compilado com 0.8.26
 - OpenZeppelin Contracts
 - Chainlink Price Feed (ETH/USD)
 - Hardhat (compilacao, testes, deploy)
@@ -50,10 +49,10 @@ contracts/
   FundStaking.sol     # Staking + oraculo Chainlink
   FundDAO.sol         # Governanca (DAO)
 scripts/
-  deploy.js           # Script de deploy na Sepolia
-  interact.js         # Demonstracao: mint NFT, stake, votacao
-test/                 # Testes automatizados
+  deploy.cjs          # Script de deploy na Sepolia
+  interact.cjs        # Demonstracao: mint NFT, stake, votacao
 hardhat.config.js     # Configuracao do Hardhat
+
 README.md             # Este arquivo
 ```
 
@@ -61,7 +60,8 @@ README.md             # Este arquivo
 
 - ReentrancyGuard (OpenZeppelin) no contrato de staking
 - Ownable (OpenZeppelin) em todos os contratos
-- Solidity ^0.8.20 com protecao nativa contra overflow/underflow
+- Solidity ^0.8.x, compilado com 0.8.26, com protecao nativa contra 
+overflow/underflow
 - Validacoes com require() em todas as funcoes
 - Auditoria com Slither e Mythril
 
@@ -69,10 +69,10 @@ README.md             # Este arquivo
 
 | Contrato | Endereco |
 |----------|----------|
-| FundToken | _a ser preenchido apos deploy_ |
-| FundNFT | _a ser preenchido apos deploy_ |
-| FundStaking | _a ser preenchido apos deploy_ |
-| FundDAO | _a ser preenchido apos deploy_ |
+| FundToken | 0xF5388311F36836aC261c3f5Ca9f92834Dec096b1 |
+| FundNFT | 0x5f644F47A063ee20275c674Dd298D505184966F8 |
+| FundStaking | 0xa4350e9A644dFC3B40Ba138BeAf82aB2bB66574F |
+| FundDAO | 0x27938F70e4b7BcCB3A1921CBCf9DbCb0e57aB9D1 |
 
 Chainlink ETH/USD Price Feed (Sepolia): `0x694AA1769357215DE4FAC081bf1f309aDC325306`
 
@@ -105,13 +105,13 @@ npx hardhat test
 ### Deploy na Sepolia
 
 ```bash
-npx hardhat run scripts/deploy.js --network sepolia
+npx hardhat run scripts/deploy.cjs --network sepolia
 ```
 
 ### Interagir com os contratos
 
 ```bash
-npx hardhat run scripts/interact.js --network sepolia
+npx hardhat run scripts/interact.cjs --network sepolia
 ```
 
 ## Autora
