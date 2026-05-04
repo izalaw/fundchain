@@ -1,0 +1,374 @@
+'npx hardhat clean' running (wd: /Users/macbook/fundchain)
+'npx hardhat clean --global' running (wd: /Users/macbook/fundchain)
+'npx hardhat compile --force' running (wd: /Users/macbook/fundchain)
+INFO:Detectors:
+Detector: incorrect-exp
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) has bitwise-xor operator ^ instead of the exponentiation operator **: 
+	 - inverse = (3 * denominator) ^ 2 (node_modules/@openzeppelin/contracts/utils/math/Math.sol#259)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-exponentiation
+INFO:Detectors:
+Detector: unchecked-transfer
+FundStaking.stake(uint256) (contracts/FundStaking.sol#124-142) ignores return value by fundToken.transferFrom(msg.sender,address(this),_quantidade) (contracts/FundStaking.sol#135)
+FundStaking.unstake(uint256) (contracts/FundStaking.sol#146-164) ignores return value by fundToken.transfer(msg.sender,_quantidade) (contracts/FundStaking.sol#161)
+FundStaking.resgatarRecompensa() (contracts/FundStaking.sol#167-180) ignores return value by fundToken.transfer(msg.sender,recompensa) (contracts/FundStaking.sol#177)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer
+INFO:Detectors:
+Detector: divide-before-multiply
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#244)
+	- inverse = (3 * denominator) ^ 2 (node_modules/@openzeppelin/contracts/utils/math/Math.sol#259)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#244)
+	- inverse *= 2 - denominator * inverse (node_modules/@openzeppelin/contracts/utils/math/Math.sol#263)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#244)
+	- inverse *= 2 - denominator * inverse (node_modules/@openzeppelin/contracts/utils/math/Math.sol#264)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#244)
+	- inverse *= 2 - denominator * inverse (node_modules/@openzeppelin/contracts/utils/math/Math.sol#265)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#244)
+	- inverse *= 2 - denominator * inverse (node_modules/@openzeppelin/contracts/utils/math/Math.sol#266)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#244)
+	- inverse *= 2 - denominator * inverse (node_modules/@openzeppelin/contracts/utils/math/Math.sol#267)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- denominator = denominator / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#244)
+	- inverse *= 2 - denominator * inverse (node_modules/@openzeppelin/contracts/utils/math/Math.sol#268)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) performs a multiplication on the result of a division:
+	- low = low / twos (node_modules/@openzeppelin/contracts/utils/math/Math.sol#247)
+	- result = low * inverse (node_modules/@openzeppelin/contracts/utils/math/Math.sol#274)
+Math.invMod(uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#317-363) performs a multiplication on the result of a division:
+	- quotient = gcd / remainder (node_modules/@openzeppelin/contracts/utils/math/Math.sol#339)
+	- (gcd,remainder) = (remainder,gcd - remainder * quotient) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#341-348)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+INFO:Detectors:
+Detector: reentrancy-no-eth
+Reentrancy in FundNFT.emitirCertificado(address,string,uint256) (contracts/FundNFT.sol#59-90):
+	External calls:
+	- _safeMint(_apoiador,tokenId) (contracts/FundNFT.sol#74)
+		- ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data) (node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol#289)
+		- retval = IERC721Receiver(to).onERC721Received(operator,from,tokenId,data) (node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Utils.sol#33-47)
+	State variables written after the call(s):
+	- jaApoiou[_apoiador][_nomeProjeto] = true (contracts/FundNFT.sol#85)
+	FundNFT.jaApoiou (contracts/FundNFT.sol#41) can be used in cross function reentrancies:
+	- FundNFT.emitirCertificado(address,string,uint256) (contracts/FundNFT.sol#59-90)
+	- FundNFT.jaApoiou (contracts/FundNFT.sol#41)
+Reentrancy in FundStaking.stake(uint256) (contracts/FundStaking.sol#124-142):
+	External calls:
+	- fundToken.transferFrom(msg.sender,address(this),_quantidade) (contracts/FundStaking.sol#135)
+	State variables written after the call(s):
+	- stakers[msg.sender].saldoStake += _quantidade (contracts/FundStaking.sol#138)
+	FundStaking.stakers (contracts/FundStaking.sol#54) can be used in cross function reentrancies:
+	- FundStaking.calcularRecompensa(address) (contracts/FundStaking.sol#95-112)
+	- FundStaking.recompensaPendente(address) (contracts/FundStaking.sol#195-197)
+	- FundStaking.saldoEmStake(address) (contracts/FundStaking.sol#190-192)
+	- FundStaking.stakers (contracts/FundStaking.sol#54)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Detector: unused-return
+FundStaking.obterPrecoETH() (contracts/FundStaking.sol#79-88) ignores return value by (None,preco,None,None,None) = priceFeed.latestRoundData() (contracts/FundStaking.sol#80-85)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+INFO:Detectors:
+Detector: events-maths
+FundDAO.setDuracaoVotacao(uint256) (contracts/FundDAO.sol#206-209) should emit an event for: 
+	- duracaoVotacao = _novaDuracao (contracts/FundDAO.sol#208) 
+FundStaking.setTaxaRecompensa(uint256) (contracts/FundStaking.sol#184-187) should emit an event for: 
+	- taxaRecompensa = _novaTaxa (contracts/FundStaking.sol#186) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic
+INFO:Detectors:
+Detector: reentrancy-benign
+Reentrancy in FundNFT.emitirCertificado(address,string,uint256) (contracts/FundNFT.sol#59-90):
+	External calls:
+	- _safeMint(_apoiador,tokenId) (contracts/FundNFT.sol#74)
+		- ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data) (node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol#289)
+		- retval = IERC721Receiver(to).onERC721Received(operator,from,tokenId,data) (node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Utils.sol#33-47)
+	State variables written after the call(s):
+	- certificados[tokenId] = CertificadoApoiador({nomeProjeto:_nomeProjeto,apoiador:_apoiador,valorApoio:_valorApoio,dataEmissao:block.timestamp}) (contracts/FundNFT.sol#77-82)
+Reentrancy in FundStaking.stake(uint256) (contracts/FundStaking.sol#124-142):
+	External calls:
+	- fundToken.transferFrom(msg.sender,address(this),_quantidade) (contracts/FundStaking.sol#135)
+	State variables written after the call(s):
+	- totalStaked += _quantidade (contracts/FundStaking.sol#139)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+INFO:Detectors:
+Detector: reentrancy-events
+Reentrancy in FundNFT.emitirCertificado(address,string,uint256) (contracts/FundNFT.sol#59-90):
+	External calls:
+	- _safeMint(_apoiador,tokenId) (contracts/FundNFT.sol#74)
+		- ERC721Utils.checkOnERC721Received(_msgSender(),address(0),to,tokenId,data) (node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol#289)
+		- retval = IERC721Receiver(to).onERC721Received(operator,from,tokenId,data) (node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Utils.sol#33-47)
+	Event emitted after the call(s):
+	- CertificadoEmitido(tokenId,_apoiador,_nomeProjeto,_valorApoio) (contracts/FundNFT.sol#87)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+INFO:Detectors:
+Detector: timestamp
+FundDAO.votar(uint256,bool) (contracts/FundDAO.sol#120-142) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp <= p.prazoFinal,Votacao encerrada) (contracts/FundDAO.sol#124)
+	- require(bool,string)(! p.executada,Proposta ja executada) (contracts/FundDAO.sol#125)
+FundDAO.executarProposta(uint256) (contracts/FundDAO.sol#147-170) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp > p.prazoFinal,Votacao ainda em andamento) (contracts/FundDAO.sol#150)
+	- require(bool,string)(! p.executada,Proposta ja executada) (contracts/FundDAO.sol#151)
+FundDAO.votacaoAberta(uint256) (contracts/FundDAO.sol#200-203) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= propostas[_propostaId].prazoFinal && ! propostas[_propostaId].executada (contracts/FundDAO.sol#201-202)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+Detector: assembly
+ERC721Utils.checkOnERC721Received(address,address,address,uint256,bytes) (node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Utils.sol#25-49) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Utils.sol#43-45)
+Bytes.slice(bytes,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#86-98) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Bytes.sol#93-95)
+Bytes.splice(bytes,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#117-129) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Bytes.sol#123-126)
+Bytes.replace(bytes,uint256,bytes,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#154-172) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Bytes.sol#167-169)
+Bytes.concat(bytes[]) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#183-203) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Bytes.sol#194-196)
+Bytes.toNibbles(bytes) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#210-245) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Bytes.sol#211-244)
+Bytes._unsafeReadBytesOffset(bytes,uint256) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#326-331) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Bytes.sol#328-330)
+Panic.panic(uint256) (node_modules/@openzeppelin/contracts/utils/Panic.sol#50-56) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Panic.sol#51-55)
+StorageSlot.getAddressSlot(bytes32) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#66-70) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#67-69)
+StorageSlot.getBooleanSlot(bytes32) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#75-79) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#76-78)
+StorageSlot.getBytes32Slot(bytes32) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#84-88) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#85-87)
+StorageSlot.getUint256Slot(bytes32) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#93-97) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#94-96)
+StorageSlot.getInt256Slot(bytes32) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#102-106) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#103-105)
+StorageSlot.getStringSlot(bytes32) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#111-115) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#112-114)
+StorageSlot.getStringSlot(string) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#120-124) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#121-123)
+StorageSlot.getBytesSlot(bytes32) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#129-133) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#130-132)
+StorageSlot.getBytesSlot(bytes) (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#138-142) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#139-141)
+Strings.toString(uint256) (node_modules/@openzeppelin/contracts/utils/Strings.sol#42-60) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Strings.sol#47-49)
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Strings.sol#52-54)
+Strings.toChecksumHexString(address) (node_modules/@openzeppelin/contracts/utils/Strings.sol#108-126) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Strings.sol#113-115)
+Strings.escapeJSON(string) (node_modules/@openzeppelin/contracts/utils/Strings.sol#461-505) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Strings.sol#468-470)
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Strings.sol#499-502)
+Strings._unsafeReadBytesOffset(bytes,uint256) (node_modules/@openzeppelin/contracts/utils/Strings.sol#513-518) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Strings.sol#515-517)
+Strings._unsafeWriteBytesOffset(bytes,uint256,bytes1) (node_modules/@openzeppelin/contracts/utils/Strings.sol#526-531) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/Strings.sol#528-530)
+Math.add512(uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#25-30) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#26-29)
+Math.mul512(uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#37-46) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#41-45)
+Math.tryMul(uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#73-84) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#76-80)
+Math.tryDiv(uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#89-97) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#92-95)
+Math.tryMod(uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#102-110) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#105-108)
+Math.mulDiv(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#206-277) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#229-236)
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#242-251)
+Math.tryModExp(uint256,uint256,uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#411-435) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#413-434)
+Math.tryModExp(bytes,bytes,bytes) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#451-473) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#463-472)
+Math._zeroBytes(bytes) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#478-490) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#482-484)
+Math.log2(uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#619-658) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/Math.sol#655-657)
+SafeCast.toUint(bool) (node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol#1157-1161) uses assembly
+	- INLINE ASM (node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol#1158-1160)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage
+INFO:Detectors:
+Detector: pragma
+7 different versions of Solidity are used:
+	- Version constraint ^0.8.0 is used by:
+		-^0.8.0 (node_modules/@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol#2)
+	- Version constraint ^0.8.20 is used by:
+		-^0.8.20 (node_modules/@openzeppelin/contracts/access/Ownable.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Utils.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/Context.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/Panic.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#5)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/math/Math.sol#4)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol#5)
+		-^0.8.20 (node_modules/@openzeppelin/contracts/utils/math/SignedMath.sol#4)
+		-^0.8.20 (contracts/FundDAO.sol#2)
+		-^0.8.20 (contracts/FundNFT.sol#2)
+		-^0.8.20 (contracts/FundStaking.sol#2)
+		-^0.8.20 (contracts/FundToken.sol#2)
+	- Version constraint >=0.8.4 is used by:
+		->=0.8.4 (node_modules/@openzeppelin/contracts/interfaces/draft-IERC6093.sol#4)
+	- Version constraint >=0.4.16 is used by:
+		->=0.4.16 (node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol#4)
+		->=0.4.16 (node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol#4)
+	- Version constraint >=0.6.2 is used by:
+		->=0.6.2 (node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol#4)
+		->=0.6.2 (node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol#4)
+		->=0.6.2 (node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol#4)
+	- Version constraint ^0.8.24 is used by:
+		-^0.8.24 (node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol#4)
+		-^0.8.24 (node_modules/@openzeppelin/contracts/utils/Bytes.sol#4)
+		-^0.8.24 (node_modules/@openzeppelin/contracts/utils/Strings.sol#4)
+	- Version constraint >=0.5.0 is used by:
+		->=0.5.0 (node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol#4)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#different-pragma-directives-are-used
+INFO:Detectors:
+Detector: solc-version
+Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- ^0.8.0 (node_modules/@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol#2)
+Version constraint ^0.8.20 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- VerbatimInvalidDeduplication
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess.
+It is used by:
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/access/Ownable.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/token/ERC721/utils/ERC721Utils.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/Context.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/Panic.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/StorageSlot.sol#5)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/math/Math.sol#4)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/math/SafeCast.sol#5)
+	- ^0.8.20 (node_modules/@openzeppelin/contracts/utils/math/SignedMath.sol#4)
+	- ^0.8.20 (contracts/FundDAO.sol#2)
+	- ^0.8.20 (contracts/FundNFT.sol#2)
+	- ^0.8.20 (contracts/FundStaking.sol#2)
+	- ^0.8.20 (contracts/FundToken.sol#2)
+Version constraint >=0.8.4 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables.
+It is used by:
+	- >=0.8.4 (node_modules/@openzeppelin/contracts/interfaces/draft-IERC6093.sol#4)
+Version constraint >=0.4.16 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- DirtyBytesArrayToStorage
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching
+	- EmptyByteArrayCopy
+	- DynamicArrayCleanup
+	- ImplicitConstructorCallvalueCheck
+	- TupleAssignmentMultiStackSlotComponents
+	- MemoryArrayCreationOverflow
+	- privateCanBeOverridden
+	- SignedArrayStorageCopy
+	- ABIEncoderV2StorageArrayWithMultiSlotElement
+	- DynamicConstructorArgumentsClippedABIV2
+	- UninitializedFunctionPointerInConstructor_0.4.x
+	- IncorrectEventSignatureInLibraries_0.4.x
+	- ExpExponentCleanup
+	- NestedArrayFunctionCallDecoder
+	- ZeroFunctionSelector.
+It is used by:
+	- >=0.4.16 (node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol#4)
+	- >=0.4.16 (node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol#4)
+Version constraint >=0.6.2 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching
+	- EmptyByteArrayCopy
+	- DynamicArrayCleanup
+	- MissingEscapingInFormatting
+	- ArraySliceDynamicallyEncodedBaseType
+	- ImplicitConstructorCallvalueCheck
+	- TupleAssignmentMultiStackSlotComponents
+	- MemoryArrayCreationOverflow.
+It is used by:
+	- >=0.6.2 (node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol#4)
+	- >=0.6.2 (node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol#4)
+	- >=0.6.2 (node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol#4)
+Version constraint >=0.5.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- DirtyBytesArrayToStorage
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching
+	- EmptyByteArrayCopy
+	- DynamicArrayCleanup
+	- ImplicitConstructorCallvalueCheck
+	- TupleAssignmentMultiStackSlotComponents
+	- MemoryArrayCreationOverflow
+	- privateCanBeOverridden
+	- SignedArrayStorageCopy
+	- ABIEncoderV2StorageArrayWithMultiSlotElement
+	- DynamicConstructorArgumentsClippedABIV2
+	- UninitializedFunctionPointerInConstructor
+	- IncorrectEventSignatureInLibraries
+	- ABIEncoderV2PackedStorage.
+It is used by:
+	- >=0.5.0 (node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol#4)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+INFO:Detectors:
+Detector: naming-convention
+Parameter FundDAO.criarProposta(string)._descricao (contracts/FundDAO.sol#91) is not in mixedCase
+Parameter FundDAO.votar(uint256,bool)._propostaId (contracts/FundDAO.sol#120) is not in mixedCase
+Parameter FundDAO.votar(uint256,bool)._aFavor (contracts/FundDAO.sol#120) is not in mixedCase
+Parameter FundDAO.executarProposta(uint256)._propostaId (contracts/FundDAO.sol#147) is not in mixedCase
+Parameter FundDAO.consultarProposta(uint256)._propostaId (contracts/FundDAO.sol#174) is not in mixedCase
+Parameter FundDAO.votacaoAberta(uint256)._propostaId (contracts/FundDAO.sol#200) is not in mixedCase
+Parameter FundDAO.setDuracaoVotacao(uint256)._novaDuracao (contracts/FundDAO.sol#206) is not in mixedCase
+Parameter FundDAO.setQuorumMinimo(uint256)._novoQuorum (contracts/FundDAO.sol#212) is not in mixedCase
+Parameter FundNFT.emitirCertificado(address,string,uint256)._apoiador (contracts/FundNFT.sol#60) is not in mixedCase
+Parameter FundNFT.emitirCertificado(address,string,uint256)._nomeProjeto (contracts/FundNFT.sol#61) is not in mixedCase
+Parameter FundNFT.emitirCertificado(address,string,uint256)._valorApoio (contracts/FundNFT.sol#62) is not in mixedCase
+Parameter FundNFT.consultarCertificado(uint256)._tokenId (contracts/FundNFT.sol#94) is not in mixedCase
+Parameter FundStaking.calcularRecompensa(address)._staker (contracts/FundStaking.sol#95) is not in mixedCase
+Parameter FundStaking.stake(uint256)._quantidade (contracts/FundStaking.sol#124) is not in mixedCase
+Parameter FundStaking.unstake(uint256)._quantidade (contracts/FundStaking.sol#146) is not in mixedCase
+Parameter FundStaking.setTaxaRecompensa(uint256)._novaTaxa (contracts/FundStaking.sol#184) is not in mixedCase
+Parameter FundStaking.saldoEmStake(address)._usuario (contracts/FundStaking.sol#190) is not in mixedCase
+Parameter FundStaking.recompensaPendente(address)._usuario (contracts/FundStaking.sol#195) is not in mixedCase
+Parameter FundToken.mint(address,uint256)._to (contracts/FundToken.sol#56) is not in mixedCase
+Parameter FundToken.mint(address,uint256)._amount (contracts/FundToken.sol#56) is not in mixedCase
+Parameter FundToken.setTokenPrice(uint256)._newPrice (contracts/FundToken.sol#62) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+Detector: too-many-digits
+Bytes.toNibbles(bytes) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#210-245) uses literals with too many digits:
+	- chunk_toNibbles_asm_0 = 0x0000000000000000ffffffffffffffff0000000000000000ffffffffffffffff & chunk_toNibbles_asm_0 << 64 | chunk_toNibbles_asm_0 (node_modules/@openzeppelin/contracts/utils/Bytes.sol#222-225)
+Bytes.toNibbles(bytes) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#210-245) uses literals with too many digits:
+	- chunk_toNibbles_asm_0 = 0x00000000ffffffff00000000ffffffff00000000ffffffff00000000ffffffff & chunk_toNibbles_asm_0 << 32 | chunk_toNibbles_asm_0 (node_modules/@openzeppelin/contracts/utils/Bytes.sol#226-229)
+Bytes.reverseBytes32(bytes32) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#258-272) uses literals with too many digits:
+	- value = ((value >> 32) & 0x00000000FFFFFFFF00000000FFFFFFFF00000000FFFFFFFF00000000FFFFFFFF) | ((value & 0x00000000FFFFFFFF00000000FFFFFFFF00000000FFFFFFFF00000000FFFFFFFF) << 32) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#265-267)
+Bytes.reverseBytes32(bytes32) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#258-272) uses literals with too many digits:
+	- value = ((value >> 64) & 0x0000000000000000FFFFFFFFFFFFFFFF0000000000000000FFFFFFFFFFFFFFFF) | ((value & 0x0000000000000000FFFFFFFFFFFFFFFF0000000000000000FFFFFFFFFFFFFFFF) << 64) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#268-270)
+Bytes.reverseBytes16(bytes16) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#275-286) uses literals with too many digits:
+	- value = ((value & 0xFFFFFFFF00000000FFFFFFFF00000000) >> 32) | ((value & 0x00000000FFFFFFFF00000000FFFFFFFF) << 32) (node_modules/@openzeppelin/contracts/utils/Bytes.sol#282-284)
+Math.log2(uint256) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#619-658) uses literals with too many digits:
+	- r = r | byte(uint256,uint256)(x >> r,0x0000010102020202030303030303030300000000000000000000000000000000) (node_modules/@openzeppelin/contracts/utils/math/Math.sol#656)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits
+INFO:Detectors:
+Detector: immutable-states
+FundDAO.fundToken (contracts/FundDAO.sol#33) should be immutable 
+FundStaking.fundToken (contracts/FundStaking.sol#38) should be immutable 
+FundStaking.priceFeed (contracts/FundStaking.sol#41) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+INFO:Slither:. analyzed (28 contracts with 101 detectors), 94 result(s) found
