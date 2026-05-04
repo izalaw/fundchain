@@ -116,6 +116,6 @@ npx hardhat run scripts/interact.cjs --network sepolia
 
 ## Autora
 
-Iza Fernandes
+Izabela Fernandes
 
 Residencia em TIC 29 - Web 3.0 | Prof. Bruno Portes
